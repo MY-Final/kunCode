@@ -24,7 +24,6 @@
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             background-color: var(--court-wood);
-            /* 模拟球场木地板纹理 */
             background-image: 
                 linear-gradient(90deg, rgba(193, 84, 27, 0.03) 1px, transparent 1px),
                 linear-gradient(rgba(193, 84, 27, 0.03) 1px, transparent 1px);
@@ -36,7 +35,6 @@
             flex-direction: column;
         }
 
-        /* 鼠标跟随：聚光灯效果 */
         .cursor-light {
             position: fixed;
             width: 600px;
@@ -48,24 +46,24 @@
             transform: translate(-50%, -50%);
         }
 
+        /* 顶部留白，不再放置 Logo */
         header {
-            padding: 30px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 40px 5% 20px;
             z-index: 10;
         }
 
         .status-badge {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
             background: #fff;
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 32px; /* 增加下方间距，防止重叠 */
+            border: 1px solid rgba(249, 115, 22, 0.2);
         }
 
         .status-dot {
@@ -86,8 +84,8 @@
             flex: 1;
             display: flex;
             align-items: center;
-            padding: 0 8%;
-            gap: 40px;
+            padding: 0 8% 60px;
+            gap: 60px;
             z-index: 5;
         }
 
@@ -96,21 +94,22 @@
         }
 
         .tagline {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 900;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             color: var(--ball-orange-deep);
-            margin-bottom: 16px;
+            margin-bottom: 20px; /* 增加与主标题的间距 */
             display: block;
+            opacity: 0.8;
         }
 
         .main-title {
-            font-size: clamp(48px, 8vw, 90px);
+            font-size: clamp(48px, 7.5vw, 88px);
             font-weight: 900;
-            line-height: 0.9;
-            letter-spacing: -4px;
-            margin-bottom: 30px;
+            line-height: 1.1; /* 修复文字重叠：增加行高 */
+            letter-spacing: -3px;
+            margin-bottom: 35px;
         }
 
         .title-gradient {
@@ -122,85 +121,86 @@
 
         .hero-desc {
             font-size: 18px;
-            color: #666;
-            max-width: 550px;
-            line-height: 1.6;
-            margin-bottom: 40px;
+            color: #555;
+            max-width: 580px;
+            line-height: 1.7;
+            margin-bottom: 45px;
         }
 
-        /* 梗文案列表 */
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 45px;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.5);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--ball-orange);
+            background: rgba(255, 255, 255, 0.6);
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 5px solid var(--ball-orange);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
         }
 
         .feature-card h3 {
-            font-size: 14px;
-            margin-bottom: 5px;
+            font-size: 15px;
+            margin-bottom: 6px;
             color: var(--seam-black);
         }
 
         .feature-card p {
-            font-size: 12px;
-            color: #888;
+            font-size: 13px;
+            color: #777;
         }
 
         .cta-group {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
         }
 
         .btn-main {
             background: var(--seam-black);
             color: #fff;
-            padding: 20px 40px;
-            border-radius: 12px;
-            font-size: 18px;
+            padding: 22px 45px;
+            border-radius: 14px;
+            font-size: 19px;
             font-weight: 800;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            transition: 0.3s;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px -5px rgba(0,0,0,0.3);
             border: none;
             cursor: pointer;
         }
 
         .btn-main:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px) scale(1.02);
             background: var(--ball-orange-deep);
             box-shadow: 0 25px 50px -12px rgba(194, 65, 12, 0.4);
         }
 
         .domain-box {
             background: #fff;
-            padding: 18px 24px;
-            border-radius: 12px;
+            padding: 20px 28px;
+            border-radius: 14px;
             border: 2px solid var(--seam-black);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            max-width: 480px;
+            max-width: 500px;
             position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
 
         .domain-text {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            color: #333;
-            font-size: 15px;
+            color: #222;
+            font-size: 16px;
         }
 
         .copy-trigger {
@@ -208,10 +208,11 @@
             font-weight: 900;
             font-size: 13px;
             cursor: pointer;
-            padding: 4px 10px;
+            padding: 6px 14px;
             border: 1px solid var(--ball-orange);
-            border-radius: 4px;
+            border-radius: 6px;
             transition: 0.2s;
+            background: transparent;
         }
 
         .copy-trigger:hover {
@@ -224,42 +225,40 @@
             position: relative;
         }
 
-        /* 终端卡片 */
         .code-card {
             background: #1a1a1a;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.6);
             position: relative;
             z-index: 2;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .code-header {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
 
         .code-content {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
+            font-size: 14.5px;
             line-height: 1.8;
-            color: #d1d5db;
+            color: #e5e7eb;
         }
 
         .highlight { color: var(--ball-orange); }
 
-        /* 动画：篮球旋转 */
         .spinning-ball {
             position: absolute;
-            right: -30px;
-            bottom: -30px;
-            font-size: 80px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
-            animation: rotate 4s linear infinite;
+            right: -40px;
+            bottom: -40px;
+            font-size: 90px;
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.3));
+            animation: rotate 5s linear infinite;
             z-index: 3;
         }
 
@@ -269,10 +268,11 @@
         }
 
         @media (max-width: 1024px) {
-            main { flex-direction: column; padding: 80px 5%; text-align: center; }
-            .hero-desc, .domain-box, .feature-grid { margin-left: auto; margin-right: auto; }
-            .main-title { letter-spacing: -2px; }
-            .visual-preview { width: 100%; max-width: 500px; margin-top: 40px; }
+            main { flex-direction: column; padding: 40px 5% 100px; text-align: center; }
+            .hero-desc, .domain-box, .feature-grid, .status-badge { margin-left: auto; margin-right: auto; }
+            .main-title { letter-spacing: -1px; line-height: 1.2; }
+            .visual-preview { width: 100%; max-width: 550px; margin-top: 50px; }
+            .spinning-ball { right: 0; bottom: -20px; font-size: 60px; }
         }
     </style>
 </head>
@@ -280,17 +280,17 @@
     <div class="cursor-light" id="cursorLight"></div>
 
     <header>
-        <div style="font-weight: 900; font-size: 24px; letter-spacing: -1px;">
-            IKUN<span style="color:var(--ball-orange)">CODE</span>
-        </div>
-        <div class="status-badge">
-            <div class="status-dot"></div>
-            练习时长两年半 · 稳定运行中
-        </div>
+        <!-- Logo 已按要求移除 -->
     </header>
 
     <main>
         <div class="hero-section">
+            <!-- 状态栏移动到此处，确保不会被挡住 -->
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                练习时长两年半 · 稳定运行中
+            </div>
+
             <span class="tagline">Sing · Dance · Rap · Basketball</span>
             <h1 class="main-title">
                 代码界的<br>
@@ -361,9 +361,7 @@
         </div>
     </main>
 
-    <footer style="padding: 40px; text-align: center; color: #999; font-size: 12px; font-weight: 600;">
-        © 2025 IKUNCODE · 既然选择了这条路，就一定要走下去 · <span style="color:var(--ball-orange)">只因你太美</span>
-    </footer>
+    <footer style="padding: 40px;"></footer>
 
     <script>
         const light = document.getElementById('cursorLight');
