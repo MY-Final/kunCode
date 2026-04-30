@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKunCode - 你的 AI 练习生</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ball-orange: #f97316;
+            --ball-orange-deep: #c2410c;
+            --court-wood: #fdf8f3;
+            --seam-black: #1a1a1a;
+            --ikun-gray: #e5e7eb;
+            --status-green: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--court-wood);
+            /* 模拟球场木地板纹理 */
+            background-image: 
+                linear-gradient(90deg, rgba(193, 84, 27, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(193, 84, 27, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: var(--seam-black);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 鼠标跟随：聚光灯效果 */
+        .cursor-light {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        header {
+            padding: 30px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--status-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+            gap: 40px;
+            z-index: 5;
+        }
+
+        .hero-section {
+            flex: 1.2;
+        }
+
+        .tagline {
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--ball-orange-deep);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .main-title {
+            font-size: clamp(48px, 8vw, 90px);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -4px;
+            margin-bottom: 30px;
+        }
+
+        .title-gradient {
+            background: linear-gradient(to bottom, var(--ball-orange) 0%, var(--ball-orange-deep) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            color: #666;
+            max-width: 550px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* 梗文案列表 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--ball-orange);
+        }
+
+        .feature-card h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: var(--seam-black);
+        }
+
+        .feature-card p {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .btn-main {
+            background: var(--seam-black);
+            color: #fff;
+            padding: 20px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: 0.3s;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-5px);
+            background: var(--ball-orange-deep);
+            box-shadow: 0 25px 50px -12px rgba(194, 65, 12, 0.4);
+        }
+
+        .domain-box {
+            background: #fff;
+            padding: 18px 24px;
+            border-radius: 12px;
+            border: 2px solid var(--seam-black);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 480px;
+            position: relative;
+        }
+
+        .domain-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .copy-trigger {
+            color: var(--ball-orange);
+            font-weight: 900;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 4px 10px;
+            border: 1px solid var(--ball-orange);
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+
+        .copy-trigger:hover {
+            background: var(--ball-orange);
+            color: #fff;
+        }
+
+        .visual-preview {
+            flex: 0.8;
+            position: relative;
+        }
+
+        /* 终端卡片 */
+        .code-card {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .code-header {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        .code-content {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #d1d5db;
+        }
+
+        .highlight { color: var(--ball-orange); }
+
+        /* 动画：篮球旋转 */
+        .spinning-ball {
+            position: absolute;
+            right: -30px;
+            bottom: -30px;
+            font-size: 80px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+            animation: rotate 4s linear infinite;
+            z-index: 3;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1024px) {
+            main { flex-direction: column; padding: 80px 5%; text-align: center; }
+            .hero-desc, .domain-box, .feature-grid { margin-left: auto; margin-right: auto; }
+            .main-title { letter-spacing: -2px; }
+            .visual-preview { width: 100%; max-width: 500px; margin-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-light" id="cursorLight"></div>
+
+    <header>
+        <div style="font-weight: 900; font-size: 24px; letter-spacing: -1px;">
+            IKUN<span style="color:var(--ball-orange)">CODE</span>
+        </div>
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            练习时长两年半 · 稳定运行中
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <span class="tagline">Sing · Dance · Rap · Basketball</span>
+            <h1 class="main-title">
+                代码界的<br>
+                <span class="title-gradient">全能练习生</span>
+            </h1>
+            
+            <p class="hero-desc">
+                全民制作人请注意，这是一个专为开发者打造的 AI 接口站。无论你是想写代码还是搞创作，这里的响应速度绝对让你直呼“哎哟，不错哦”。
+            </p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>只因速度太快</h3>
+                    <p>响应丝滑如运球，拒绝任何卡顿。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>优雅而不失风度</h3>
+                    <p>完美支持 Claude 3.7，代码也能跳起舞。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>你是故意找茬吗？</h3>
+                    <p>超高稳定性，每一个请求都精准入筐。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>山外青山楼外楼</h3>
+                    <p>这就是全能中转的魅力，你干嘛~</p>
+                </div>
+            </div>
+
+            <div class="cta-group">
+                <div class="domain-box">
+                    <div class="domain-text" id="domainText">https://kuncode.120403.xyz/v1</div>
+                    <div class="copy-trigger" onclick="copyDomain()">复制接口</div>
+                </div>
+                <div>
+                    <button class="btn-main" onclick="window.location.href='https://kuncode.120403.xyz'">
+                        进入练习室
+                        <span>🏀</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="visual-preview">
+            <div class="spinning-ball">🏀</div>
+            <div class="code-card">
+                <div class="code-header">
+                    <div class="dot" style="background:#ff5f56"></div>
+                    <div class="dot" style="background:#ffbd2e"></div>
+                    <div class="dot" style="background:#27c93f"></div>
+                </div>
+                <div class="code-content">
+                    <div><span style="color:#6b7280">// 准备开始你的表演</span></div>
+                    <div>const ikun = new OpenAI({</div>
+                    <div style="padding-left:20px;">
+                        baseURL: <span class="highlight">"https://kuncode.120403.xyz/v1"</span>,
+                        apiKey: <span class="highlight">"sk-practice-2.5-years"</span>
+                    </div>
+                    <div>});</div>
+                    <div style="margin-top:15px;">
+                        await ikun.chat.completions.create({<br>
+                        &nbsp;&nbsp;model: <span style="color:#fbbf24">"claude-3-7-sonnet"</span>,<br>
+                        &nbsp;&nbsp;messages: [{ role: <span style="color:#fbbf24">"user"</span>, content: <span style="color:#fbbf24">"你干嘛~ 帮我写段代码"</span> }]<br>
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="padding: 40px; text-align: center; color: #999; font-size: 12px; font-weight: 600;">
+        © 2025 IKUNCODE · 既然选择了这条路，就一定要走下去 · <span style="color:var(--ball-orange)">只因你太美</span>
+    </footer>
+
+    <script>
+        const light = document.getElementById('cursorLight');
+        document.addEventListener('mousemove', (e) => {
+            light.style.left = e.clientX + 'px';
+            light.style.top = e.clientY + 'px';
+        });
+
+        function copyDomain() {
+            const text = "https://kuncode.120403.xyz/v1";
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const trigger = document.querySelector('.copy-trigger');
+            const originalText = trigger.innerText;
+            trigger.innerText = "已复制！";
+            trigger.style.color = "#22c55e";
+            trigger.style.borderColor = "#22c55e";
+            
+            setTimeout(() => {
+                trigger.innerText = originalText;
+                trigger.style.color = "var(--ball-orange)";
+                trigger.style.borderColor = "var(--ball-orange)";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
